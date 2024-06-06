@@ -8,4 +8,5 @@ for subset in itertools.combinations(stuff, 2):
         if i % sum(list(subset)) == 0:
             #list_.append(list(subset))
             dic=dict.fromkeys([i],list(subset))
-            print(*list(dic.keys()), '-', *list(dic.values()))
+            for key, value in dic.items():
+                print(key, '-', *value)
