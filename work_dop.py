@@ -17,9 +17,5 @@ def foo(r, d):
 
 d = reduce(lambda r, d: foo(r, d) or r, list_2, defaultdict(list))
 for j in d:
-    if len(d[j]) > 1:
-        result = sum(d[j], [])
-        print(j, result)
-    else:
-        result = sum(d[j], [])
-        print(j, result)
+    result = sum(d[j], [])
+    print(j, result)
