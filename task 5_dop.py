@@ -17,6 +17,7 @@ class UrTube:
         self.users = {}
         self.videos = []
         self.current_user = None
+        self.adult_mode = False
 
     def register(self, nickname, password, age):
         if self.users.get(nickname):
@@ -25,10 +26,12 @@ class UrTube:
             p = hash(password)
             self.users[nickname] = [p, age]
             self.current_user = nickname
+            self.adult_mode = age
     def log_in(self, login, password):
         if self.users.get(login):
             p = hash(password)
             if p == self.users[login][0]:
+                self.adult_mode = self.users[login][1]
                 self.current_user = login
                 print(self.current_user)
     def log_out(self):
@@ -46,7 +49,7 @@ class UrTube:
     def watch_video(self, title_video):
         from time import sleep
         if self.current_user != None:
-            if self.users[self.current_user][1] >= 18:
+            if self.adult_mode >= 18:
                 for j in self.videos:
                     if j == title_video:
                         for i in range(1, 11):
