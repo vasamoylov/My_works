@@ -1,16 +1,13 @@
-import io
 def custom_write(file_name, strings):
     strings_positions = {}
     count = 0
     for i in strings:
         file = open(file_name, 'a', encoding='utf-8')
         n = file.tell()
-        file.write(str(i))
-        file.write('\n')
+        file.write(str(i) + '\n')
         file.close()
         count += 1
-        key = (count, n)
-        strings_positions[key] = i
+        strings_positions[(count, n)] = i
     return strings_positions
 
 info = [
