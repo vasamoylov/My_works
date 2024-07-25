@@ -12,9 +12,6 @@ class Car:
         self.__numbers = __numbers
         self.__is_valid_vin(__vin)
         self.__is_valid_numbers(__numbers)
-    def set_models(self):
-        if self.model not in self.models:
-            self.models.append(self.model)
 
 
     def __is_valid_vin(self, vin_number):
