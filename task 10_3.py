@@ -3,42 +3,53 @@ import random
 import time
 
 
-class Bank:
-    def __init__(self):
-        self.balance = 0
-        self.lock = Lock()
+class Bank():
+
+    def __init__(self, start_balance, lock):
+        self.balance = start_balance
+        self.lock = lock
+        self.add_deposit = 0
+        self.take_summ = 0
 
     def deposit(self):
-        if self.lock.locked():
-            self.lock.release()
-        for i in range(100):
-            summ = random.randint(50, 500)
-            self.balance += summ
-            print(f'Пополнение: {summ}. Баланс: {self.balance}')
+        if self.add_deposit < 100:
+            add_ = random.randint(50, 500)
+            self.balance += add_
+            print(f'Пополнение: {add_} руб. Баланс: {self.balance} руб.')
+            if self.balance >= 500 and self.lock.locked():
+                self.lock.release()
             time.sleep(0.001)
+            self.add_deposit += 1
+            self.deposit()
+        else:
+            return
 
     def take(self):
-        for i in range(100):
+        if self.take_summ < 100:
             summ = random.randint(50, 500)
-            print(f'Запрос на {summ}')
-            if self.balance >= summ:
+            print(f'Запрос на снятие {summ}')
+            if summ <= self.balance:
                 self.balance -= summ
-                print(f'Снятие: {summ}. Баланс: {self.balance}')
-                time.sleep(0.001)
+                print(f'Снятие: {summ} руб. Баланс: {self.balance}')
             else:
-                self.lock.acquire()
                 print('Запрос отклонён, недостаточно средств')
-                #time.sleep(0.001)
+                self.lock.acquire()
+            self.take_summ += 1
+            self.take()
+        else:
+            return
 
 
-bk = Bank()
+lock_ = Lock()
+bank_ = Bank(0, lock_)
 
-th1 = Thread(target=Bank.deposit, args=(bk,))
-th2 = Thread(target=Bank.take, args=(bk,))
+take_ = Thread(target=Bank.take, args=(bank_,))
+deposit_ = Thread(target=Bank.deposit, args=(bank_,))
 
-th1.start()
-th2.start()
-th1.join()
-th2.join()
+take_.start()
+deposit_.start()
 
-print(f'Итоговый баланс: {bk.balance}')
+deposit_.join()
+take_.join()
+
+print(f'Итоговый баланс: {bank_.balance}')
