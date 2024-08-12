@@ -31,6 +31,7 @@ class Bank():
             if summ <= self.balance:
                 self.balance -= summ
                 print(f'Снятие: {summ} руб. Баланс: {self.balance}')
+                time.sleep(0.001)
             else:
                 print('Запрос отклонён, недостаточно средств')
                 self.lock.acquire()
