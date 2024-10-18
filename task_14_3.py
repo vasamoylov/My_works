@@ -41,7 +41,7 @@ async def start(message: Message):
 
 
 @dp.message(F.text == 'Купить')
-async def main_menu(message: Message):
+async def get_buying_list(message: Message):
     for i in range(1, 5):
         await message.answer_photo(photo=FSInputFile(f'files/{i}.jpg'),
                                    caption=f'Название: Product {i} | Описание: описание {i} | Цена: {i * 100}')
@@ -49,7 +49,7 @@ async def main_menu(message: Message):
 
 
 @dp.callback_query(F.data == 'product_buying')
-async def set_age(callback: CallbackQuery):
+async def send_confirm_message(callback: CallbackQuery):
     await callback.message.answer('Вы успешно приобрели продукт!')
 
 
