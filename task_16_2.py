@@ -1,4 +1,3 @@
-import asyncio
 from fastapi import FastAPI, Path
 from typing import Annotated
 
